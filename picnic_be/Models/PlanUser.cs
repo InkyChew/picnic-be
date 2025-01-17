@@ -10,5 +10,6 @@
 
         // Navigation Properties
         public Plan? Plan { get; set; }
+        public User? User { get; set; }
     }
 }
