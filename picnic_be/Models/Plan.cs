@@ -13,10 +13,12 @@ namespace picnic_be.Models
         [Column(TypeName = "nvarchar(500)")]
         public string Description { get; set; } = string.Empty;
         public int PlaceId { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        [Column(TypeName = "datetimeoffset(0)")]        
+        public DateTimeOffset StartTime { get; set; }
+        [Column(TypeName = "datetimeoffset(0)")]
+        public DateTimeOffset EndTime { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
 
         // Navigation Properties
         public ICollection<PlanFood>? Foods { get; set; }

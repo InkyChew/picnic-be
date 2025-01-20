@@ -1,8 +1,33 @@
+using Microsoft.EntityFrameworkCore;
+using picnic_be.Data;
 using picnic_be.Repos;
 using picnic_be.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+var allowSpecificOrigins = "_allowSpecificOrigins";
+
+
+/*
+ * Database
+ */
+builder.Services.AddDbContext<PicnicDbContext>(options =>
+       options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+/*
+ * Cors
+ */
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+                          policy.WithOrigins()
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
 
 // Add services to the container.
 builder.Services.AddScoped(typeof(IPlanItemService<>), typeof(PlanItemService<>));
@@ -26,13 +51,25 @@ Log.Logger = new LoggerConfiguration()
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsProduction())
+{
+    app.UseDefaultFiles();
+    app.UseSpaStaticFiles();
+    app.UseSpa(spa =>
+    {
+        spa.Options.SourcePath = "ClientApp";
+    });
+}
+else if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseCors(allowSpecificOrigins);
 
 app.UseAuthorization();
 

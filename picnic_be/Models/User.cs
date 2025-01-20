@@ -14,5 +14,7 @@ namespace picnic_be.Models
         public string Email { get; set; } = null!;
         [Column(TypeName = "nvarchar(500)")]
         public string? Picture { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
     }
 }

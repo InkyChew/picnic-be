@@ -34,7 +34,7 @@ namespace picnic_be.Controllers
             catch (InvalidOperationException ex)
             {
                 Log.Error(ex, "An error occurred while creating the plan tool");
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace picnic_be.Controllers
             catch (InvalidOperationException ex)
             {
                 Log.Error(ex, "An error occurred while updating the plan tool");
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace picnic_be.Controllers
             catch (InvalidOperationException ex)
             {
                 Log.Error(ex, "An error occurred while deleting the plan tool");
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

@@ -28,7 +28,7 @@ namespace picnic_be.Controllers
         public async Task<IActionResult> GetPlan(int id)
         {
             var plan = await _service.GetPlanAsync(id);
-            return plan == null ? NotFound() : Ok();
+            return plan == null ? NotFound() : Ok(plan);
         }
 
         [HttpPost]
@@ -37,17 +37,17 @@ namespace picnic_be.Controllers
             try
             {
                 await _service.CreatePlanAsync(plan);
-                return Ok(plan);
+                return CreatedAtAction(nameof(GetPlan), new { id = plan.Id }, plan);
             }
             catch (InvalidOperationException ex)
             {
                 Log.Error(ex, "An error occurred while creating the plan");
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "An error occurred while creating the plan");
-                return CreatedAtAction(nameof(GetPlan), new { id = plan.Id }, plan);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
@@ -62,7 +62,7 @@ namespace picnic_be.Controllers
             catch (InvalidOperationException ex)
             {
                 Log.Error(ex, "An error occurred while updating the plan");
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -82,7 +82,7 @@ namespace picnic_be.Controllers
             catch (InvalidOperationException ex)
             {
                 Log.Error(ex, "An error occurred while deleting the plan");
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

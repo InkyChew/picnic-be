@@ -5,6 +5,15 @@ namespace picnic_be.Data
 {
     public class PicnicDbContext : DbContext
     {
+        public PicnicDbContext()
+        {
+        }
+
+        public PicnicDbContext(DbContextOptions<PicnicDbContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<PlanFood> PlanFoods { get; set; }

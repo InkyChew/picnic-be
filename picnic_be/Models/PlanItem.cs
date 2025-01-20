@@ -15,8 +15,8 @@ namespace picnic_be.Models
         [Column(TypeName = "nvarchar(500)")]
         public string Note { get; set; } = string.Empty;
         public bool Prepared { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
 
         // Navigation Properties
         public Plan? Plan { get; set; }
