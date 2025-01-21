@@ -145,6 +145,9 @@ namespace picnic_be.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<bool>("IsHost")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 

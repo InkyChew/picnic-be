@@ -16,10 +16,12 @@ namespace picnic_be.Services
     public class PlanService : IPlanService
     {
         private readonly IPlanRepo _repo;
+        private readonly IPlanUserService _planUserService;
 
-        public PlanService(IPlanRepo repo)
+        public PlanService(IPlanRepo repo, IPlanUserService planUserService)
         {
             _repo = repo;
+            _planUserService = planUserService;
         }
 
         public async Task<IEnumerable<Plan>> GetPlansAsync(PlanSearchParam searchParam)
@@ -34,6 +36,9 @@ namespace picnic_be.Services
 
         public async Task CreatePlanAsync(Plan plan)
         {
+            // userId
+            PlanUser host = _planUserService.CreateHost(1);
+            plan.Users = [host];
             await _repo.CreatePlanAsync(plan);
         }
 

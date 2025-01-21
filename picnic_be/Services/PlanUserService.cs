@@ -5,7 +5,8 @@ namespace picnic_be.Services
 {
     public interface IPlanUserService
     {
-        public Task<IEnumerable<PlanUser>> GetUserPlans(int userId);
+        public Task<IEnumerable<PlanUser>> GetUserPlansAsync(int userId);
+        public PlanUser CreateHost(int userId);
         public Task<PlanUser> InviteUserAsync(PlanUser e);
         public Task<PlanUser> UpdateStatusAsync(PlanUser e);
         public Task DeletePlanUserAsync(int planId, int userId);
@@ -19,15 +20,27 @@ namespace picnic_be.Services
             _repo = repo;
         }
 
-        public async Task<IEnumerable<PlanUser>> GetUserPlans(int userId)
+        public async Task<IEnumerable<PlanUser>> GetUserPlansAsync(int userId)
         {
-            return await _repo.GetUserPlans(userId);
+            return await _repo.GetUserPlansAsync(userId);
         }
 
         public async Task<PlanUser> FindPlanUserAsync(int planId, int userId)
         {
             return await _repo.FindPlanUserAsync(planId, userId)
                 ?? throw new InvalidOperationException($"No entity found with planId, userId ({planId}, {userId}).");
+        }
+
+        public PlanUser CreateHost(int userId)
+        {
+            return new PlanUser
+            {
+                UserId = userId,
+                IsHost = true,
+                Status = InvitationStatus.Accept,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
         }
 
         public async Task<PlanUser> InviteUserAsync(PlanUser e)

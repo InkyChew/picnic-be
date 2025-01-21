@@ -6,7 +6,7 @@ namespace picnic_be.Repos
 {
     public interface IPlanUserRepo
     {
-        public Task<IEnumerable<PlanUser>> GetUserPlans(int userId);
+        public Task<IEnumerable<PlanUser>> GetUserPlansAsync(int userId);
         public Task<PlanUser?> FindPlanUserAsync(int planId, int userId);
         public Task CreatePlanUserAsync(PlanUser e);
         public Task DeletePlanUserAsync(PlanUser e);
@@ -22,7 +22,7 @@ namespace picnic_be.Repos
             _context = context;
         }
 
-        public async Task<IEnumerable<PlanUser>> GetUserPlans(int userId)
+        public async Task<IEnumerable<PlanUser>> GetUserPlansAsync(int userId)
         {
             return await _context.PlanUsers
                 .Where(e => e.UserId == userId).Include(e => e.Plan).ToListAsync();

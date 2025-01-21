@@ -17,9 +17,9 @@ namespace picnic_be.Controllers
         }
 
         [HttpGet("{userId}")]
-        public IActionResult GetUserPlans(int userId)
+        public async Task<IActionResult> GetUserPlans(int userId)
         {
-            return Ok(_service.GetUserPlans(userId));
+            return Ok(await _service.GetUserPlansAsync(userId));
         }
 
         [HttpPost]
