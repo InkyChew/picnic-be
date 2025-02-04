@@ -14,7 +14,9 @@ namespace picnic_be.Models
         public string Name { get; set; } = null!;
         [Column(TypeName = "nvarchar(500)")]
         public string Note { get; set; } = string.Empty;
-        public bool Prepared { get; set; }
+        public bool Prepared { get; set; } = false;
+        [Column(TypeName = "money")]
+        public decimal Price { get; set; } = decimal.Zero;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
 

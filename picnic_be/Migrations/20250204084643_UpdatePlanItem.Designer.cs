@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using picnic_be.Data;
 
@@ -11,9 +12,11 @@ using picnic_be.Data;
 namespace picnic_be.Migrations
 {
     [DbContext(typeof(PicnicDbContext))]
-    partial class PicnicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250204084643_UpdatePlanItem")]
+    partial class UpdatePlanItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

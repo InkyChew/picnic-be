@@ -28,7 +28,7 @@ namespace picnic_be.Services
         public async Task<PlanUser> FindPlanUserAsync(int planId, int userId)
         {
             return await _repo.FindPlanUserAsync(planId, userId)
-                ?? throw new InvalidOperationException($"No entity found with planId, userId ({planId}, {userId}).");
+                ?? throw new InvalidOperationException($"No planUser found with planId, userId ({planId}, {userId}).");
         }
 
         public PlanUser CreateHost(int userId)

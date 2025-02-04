@@ -31,6 +31,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add services to the container.
+builder.Services.AddScoped<IFileServiceFactory, FileServiceFactory>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped(typeof(IPlanItemService<>), typeof(PlanItemService<>));

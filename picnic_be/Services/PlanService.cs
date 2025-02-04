@@ -34,6 +34,12 @@ namespace picnic_be.Services
             return await _repo.GetPlanAsync(id);
         }
 
+        public async Task<Plan> FindPlanAsync(int id)
+        {
+            return await _repo.FindPlanAsync(id)
+                ?? throw new InvalidOperationException($"No plan found with id {id}.");
+        }
+
         public async Task CreatePlanAsync(Plan plan)
         {
             // userId
@@ -44,9 +50,7 @@ namespace picnic_be.Services
 
         public async Task<Plan> UpdatePlanAsync(Plan plan)
         {
-            var dbPlan = await _repo.FindPlanAsync(plan.Id)
-                ?? throw new InvalidOperationException($"No entity found with id {plan.Id}.");
-
+            var dbPlan = await FindPlanAsync(plan.Id);
             dbPlan.Name = plan.Name;
             dbPlan.Description = plan.Description;
             dbPlan.PlaceId = plan.PlaceId;
@@ -60,7 +64,7 @@ namespace picnic_be.Services
 
         public async Task DeletePlanAsync(int id)
         {
-            var plan = await _repo.FindPlanAsync(id) ?? throw new InvalidOperationException();
+            var plan = await FindPlanAsync(id); 
             await _repo.DeletePlanAsync(plan);
         }
     }

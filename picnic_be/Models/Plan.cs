@@ -13,7 +13,7 @@ namespace picnic_be.Models
         [Column(TypeName = "nvarchar(500)")]
         public string Description { get; set; } = string.Empty;
         public int PlaceId { get; set; }
-        [Column(TypeName = "datetimeoffset(0)")]        
+        [Column(TypeName = "datetimeoffset(0)")]
         public DateTimeOffset StartTime { get; set; }
         [Column(TypeName = "datetimeoffset(0)")]
         public DateTimeOffset EndTime { get; set; }

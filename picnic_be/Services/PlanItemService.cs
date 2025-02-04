@@ -33,7 +33,7 @@ namespace picnic_be.Services
         public async Task<T> FindPlanItemAsync(int id)
         {
             return await _repo.FindPlanItemAsync(id)
-                ?? throw new InvalidOperationException($"No entity found with id {id}.");
+                ?? throw new InvalidOperationException($"No planItem found with id {id}.");
         }
 
         public async Task CreatePlanItemAsync(T planItem)
