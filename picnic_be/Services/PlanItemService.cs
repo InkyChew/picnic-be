@@ -46,7 +46,6 @@ namespace picnic_be.Services
             var dbPlanItem = await FindPlanItemAsync(planItem.Id);
             dbPlanItem.Name = planItem.Name;
             dbPlanItem.Note = planItem.Note;
-            dbPlanItem.UserId = planItem.UserId;
             dbPlanItem.Prepared = planItem.Prepared;
             dbPlanItem.UpdatedAt = DateTime.UtcNow;
             await _repo.SaveChangesAsync();

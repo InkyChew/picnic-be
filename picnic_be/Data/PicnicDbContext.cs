@@ -26,6 +26,12 @@ namespace picnic_be.Data
             modelBuilder.Entity<PlanUser>()
                 .HasKey(pu => new { pu.PlanId, pu.UserId });
 
+            modelBuilder.Entity<PreparerFood>()
+                .HasKey(pf => new { pf.PlanFoodId, pf.UserId });
+
+            modelBuilder.Entity<PreparerTool>()
+                .HasKey(pf => new { pf.PlanToolId, pf.UserId });
+
             // Relationships
             modelBuilder.Entity<Plan>()
                 .HasMany(p => p.Foods)

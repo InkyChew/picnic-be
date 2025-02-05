@@ -2,5 +2,6 @@
 {
     public class PlanTool : PlanItem
     {
+        public ICollection<PreparerTool>? ToolPreparers { get; set; }
     }
 }

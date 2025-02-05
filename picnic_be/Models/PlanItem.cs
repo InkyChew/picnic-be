@@ -9,7 +9,6 @@ namespace picnic_be.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int PlanId { get; set; }
-        public int UserId { get; set; }
         [Column(TypeName = "nvarchar(30)")]
         public string Name { get; set; } = null!;
         [Column(TypeName = "nvarchar(500)")]
@@ -17,6 +16,7 @@ namespace picnic_be.Models
         public bool Prepared { get; set; } = false;
         [Column(TypeName = "money")]
         public decimal Price { get; set; } = decimal.Zero;
+        public int Count { get; set; } = 1;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
 
