@@ -14,16 +14,16 @@ namespace picnic_be.Repos
 
     public class UserRepo : IUserRepo
     {
-        private readonly PicnicDbContext _context;
+        private readonly PicnicDbContext _db;
 
         public UserRepo(PicnicDbContext context)
         {
-            _context = context;
+            _db = context;
         }
 
         public async Task<User?> FindUserAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _db.Users.FindAsync(id);
         }
 
         public Task<IEnumerable<User>> GetUserAsync(PlanSearchParam searchParam)
@@ -33,13 +33,13 @@ namespace picnic_be.Repos
 
         public async Task CreateUserAsync(User user)
         {
-            await _context.Users.AddAsync(user);
+            await _db.Users.AddAsync(user);
             await SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
     }
 }

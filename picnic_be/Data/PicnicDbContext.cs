@@ -22,17 +22,9 @@ namespace picnic_be.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // PlanUser Composite Key
             modelBuilder.Entity<PlanUser>()
                 .HasKey(pu => new { pu.PlanId, pu.UserId });
 
-            modelBuilder.Entity<PreparerFood>()
-                .HasKey(pf => new { pf.PlanFoodId, pf.UserId });
-
-            modelBuilder.Entity<PreparerTool>()
-                .HasKey(pf => new { pf.PlanToolId, pf.UserId });
-
-            // Relationships
             modelBuilder.Entity<Plan>()
                 .HasMany(p => p.Foods)
                 .WithOne(f => f.Plan)
@@ -47,6 +39,16 @@ namespace picnic_be.Data
                 .HasMany(p => p.Users)
                 .WithOne(u => u.Plan)
                 .HasForeignKey(u => u.PlanId);
+
+            modelBuilder.Entity<PlanFood>()
+                .HasMany(p => p.Preparers)
+                .WithMany(u => u.Foods)
+                .UsingEntity("FoodPreparers");
+
+            modelBuilder.Entity<PlanTool>()
+                .HasMany(p => p.Preparers)
+                .WithMany(u => u.Tools)
+                .UsingEntity("ToolPreparers");
         }
     }
 }

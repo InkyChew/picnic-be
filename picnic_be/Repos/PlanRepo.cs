@@ -17,16 +17,16 @@ namespace picnic_be.Repos
 
     public class PlanRepo : IPlanRepo
     {
-        private readonly PicnicDbContext _context;
+        private readonly PicnicDbContext _db;
 
         public PlanRepo(PicnicDbContext context)
         {
-            _context = context;
+            _db = context;
         }
 
         public async Task<IEnumerable<Plan>> GetPlansAsync(PlanSearchParam searchParam)
         {
-            IQueryable<Plan> query = _context.Plans;
+            IQueryable<Plan> query = _db.Plans;
 
             if (!string.IsNullOrEmpty(searchParam.Name))
             {
@@ -43,35 +43,35 @@ namespace picnic_be.Repos
 
         public async Task<Plan?> GetPlanAsync(int id)
         {
-            return await _context.Plans
+            return await _db.Plans
                 .Include(p => p.Foods)
                 .Include(p => p.Tools)
                 .Include(p => p.Users)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Plan?> FindPlanAsync(int id)
         {
-            return await _context.Plans.FindAsync(id);
+            return await _db.Plans.FindAsync(id);
         }
 
         public async Task CreatePlanAsync(Plan plan)
         {
             plan.CreatedAt = DateTime.UtcNow;
             plan.UpdatedAt = DateTime.UtcNow;
-            await _context.Plans.AddAsync(plan);
+            await _db.Plans.AddAsync(plan);
             await SaveChangesAsync();
         }
 
         public async Task DeletePlanAsync(Plan plan)
         {
-            _context.Plans.Remove(plan);
+            _db.Plans.Remove(plan);
             await SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
     }
 }

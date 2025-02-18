@@ -21,6 +21,7 @@ namespace picnic_be.Models
         public DateTimeOffset UpdatedAt { get; set; }
 
         // Navigation Properties
+        public ICollection<PlanUser> Preparers { get; set; } = [];
         public Plan? Plan { get; set; }
     }
 }

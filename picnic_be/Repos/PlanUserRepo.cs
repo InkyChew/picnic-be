@@ -15,41 +15,41 @@ namespace picnic_be.Repos
     }
     public class PlanUserRepo : IPlanUserRepo
     {
-        private readonly PicnicDbContext _context;
+        private readonly PicnicDbContext _db;
 
         public PlanUserRepo(PicnicDbContext context)
         {
-            _context = context;
+            _db = context;
         }
 
         public async Task<IEnumerable<PlanUser>> GetUserPlansAsync(int userId)
         {
-            return await _context.PlanUsers
+            return await _db.PlanUsers
                 .Where(e => e.UserId == userId).Include(e => e.Plan).ToListAsync();
         }
 
         public async Task<PlanUser?> FindPlanUserAsync(int planId, int userId)
         {
-            return await _context.PlanUsers.FindAsync([planId, userId]);
+            return await _db.PlanUsers.FindAsync([planId, userId]);
         }
 
         public async Task CreatePlanUserAsync(PlanUser e)
         {
             e.CreatedAt = DateTime.UtcNow;
             e.UpdatedAt = DateTime.UtcNow;
-            await _context.PlanUsers.AddAsync(e);
+            await _db.PlanUsers.AddAsync(e);
             await SaveChangesAsync();
         }
 
         public async Task DeletePlanUserAsync(PlanUser e)
         {
-            _context.PlanUsers.Remove(e);
+            _db.PlanUsers.Remove(e);
             await SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
     }
 }

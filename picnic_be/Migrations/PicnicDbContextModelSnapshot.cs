@@ -22,6 +22,42 @@ namespace picnic_be.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("FoodPreparers", b =>
+                {
+                    b.Property<int>("FoodsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreparersPlanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreparersUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FoodsId", "PreparersPlanId", "PreparersUserId");
+
+                    b.HasIndex("PreparersPlanId", "PreparersUserId");
+
+                    b.ToTable("FoodPreparers");
+                });
+
+            modelBuilder.Entity("ToolPreparers", b =>
+                {
+                    b.Property<int>("ToolsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreparersPlanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreparersUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ToolsId", "PreparersPlanId", "PreparersUserId");
+
+                    b.HasIndex("PreparersPlanId", "PreparersUserId");
+
+                    b.ToTable("ToolPreparers");
+                });
+
             modelBuilder.Entity("picnic_be.Models.Plan", b =>
                 {
                     b.Property<int>("Id")
@@ -167,36 +203,6 @@ namespace picnic_be.Migrations
                     b.ToTable("PlanUsers");
                 });
 
-            modelBuilder.Entity("picnic_be.Models.PreparerFood", b =>
-                {
-                    b.Property<int>("PlanFoodId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlanFoodId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PreparerFood");
-                });
-
-            modelBuilder.Entity("picnic_be.Models.PreparerTool", b =>
-                {
-                    b.Property<int>("PlanToolId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlanToolId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PreparerTool");
-                });
-
             modelBuilder.Entity("picnic_be.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -225,6 +231,36 @@ namespace picnic_be.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("FoodPreparers", b =>
+                {
+                    b.HasOne("picnic_be.Models.PlanFood", null)
+                        .WithMany()
+                        .HasForeignKey("FoodsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("picnic_be.Models.PlanUser", null)
+                        .WithMany()
+                        .HasForeignKey("PreparersPlanId", "PreparersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ToolPreparers", b =>
+                {
+                    b.HasOne("picnic_be.Models.PlanTool", null)
+                        .WithMany()
+                        .HasForeignKey("ToolsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("picnic_be.Models.PlanUser", null)
+                        .WithMany()
+                        .HasForeignKey("PreparersPlanId", "PreparersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("picnic_be.Models.PlanFood", b =>
@@ -268,44 +304,6 @@ namespace picnic_be.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("picnic_be.Models.PreparerFood", b =>
-                {
-                    b.HasOne("picnic_be.Models.PlanFood", "PlanFood")
-                        .WithMany("FoodPreparers")
-                        .HasForeignKey("PlanFoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("picnic_be.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PlanFood");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("picnic_be.Models.PreparerTool", b =>
-                {
-                    b.HasOne("picnic_be.Models.PlanTool", "PlanTool")
-                        .WithMany("ToolPreparers")
-                        .HasForeignKey("PlanToolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("picnic_be.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PlanTool");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("picnic_be.Models.Plan", b =>
                 {
                     b.Navigation("Foods");
@@ -313,16 +311,6 @@ namespace picnic_be.Migrations
                     b.Navigation("Tools");
 
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("picnic_be.Models.PlanFood", b =>
-                {
-                    b.Navigation("FoodPreparers");
-                });
-
-            modelBuilder.Entity("picnic_be.Models.PlanTool", b =>
-                {
-                    b.Navigation("ToolPreparers");
                 });
 #pragma warning restore 612, 618
         }

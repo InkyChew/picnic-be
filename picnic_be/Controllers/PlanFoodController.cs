@@ -16,11 +16,34 @@ namespace picnic_be.Controllers
             _service = service;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPlanFoods(int planId)
+        {
+            try
+            {
+                var planFoods = await _service.GetPlanItemsAsync(planId);
+                return Ok(planFoods);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "An error occurred while getting the plan foods");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPlanFood(int id)
         {
-            var planFood = await _service.GetPlanItemsAsync(id);
-            return planFood == null ? NotFound() : Ok();
+            try
+            {
+                var planFood = await _service.FindPlanItemAsync(id);
+                return Ok(planFood);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Log.Error(ex, "An error occurred while getting the plan food");
+                return NotFound();
+            }
         }
 
         [HttpPost]

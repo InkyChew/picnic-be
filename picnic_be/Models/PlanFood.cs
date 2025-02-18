@@ -2,6 +2,5 @@
 {
     public class PlanFood : PlanItem
     {
-        public ICollection<PreparerFood>? FoodPreparers { get; set; }
     }
 }
